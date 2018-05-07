@@ -7,10 +7,16 @@
   <title>maplecroft app</title>
   <meta name="description" content="Plotting keyword searches">
   <meta name="author" content="Oliver Saunders">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
   <style>
     body {
         margin: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body h1 {
+      margin-left:1vw;
     }
 
     #wrapper {
@@ -23,16 +29,18 @@
         height: 80vh
     }
     #map {
-         width: 50vw;
+         width: 49vw;
+         margin-left:1vw;
     }
 
     #tweets {
-         width: 50vw;
-         overflow: scroll;
+         width: 49vw;
+         overflow-y: scroll;
+         margin-right: 1vw
     }
 
     #tweets h1, p {
-      margin-left:10px;
+      margin-left:1vw;
       margin-top: 0px;
     }
   </style>
