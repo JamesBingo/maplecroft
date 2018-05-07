@@ -23,13 +23,13 @@ api = twitter.Api(consumer_key=CONSUMER_KEY,
                   tweet_mode='extended')
 
 
-def index(request):
+def index(request,count=200):
 
     # mock data cos twitter wont give me an app key
     #tweets = ['hello france', 'we love #bulgaria', 'united kingdom']
 
     # 
-    tweets = api.GetUserTimeline(screen_name='MaplecroftRisk', count=200, exclude_replies=True, include_rts=False)
+    tweets = api.GetUserTimeline(screen_name='MaplecroftRisk', count=count, exclude_replies=True, include_rts=False)
 
     locations = list()
     for tweet in tweets:

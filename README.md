@@ -61,4 +61,13 @@ python manage.py runserver
 Point the browser at http://localhost:8000/home :)
 
 ### Google Maps
-The application uses google maps as the map plotting engine. Click on a marker to display tweet content. The marker will fan out (spider) if multiple tweets referenced the same country. 
+The application uses google maps as the map plotting engine. Click on a marker to display tweet content. The marker will fan out (spider) if multiple tweets referenced the same country.
+
+### Tweets
+The number of tweets can be specfied in the url:
+
+```
+http://localhost:8000/home/<count>
+```
+
+Note: This is the count provided to the twitter api which peforms filtering after it has got all replies and retweets. Actual number of analysed tweets is shown in brackets in the 'Tweets' column.

@@ -64,8 +64,8 @@
       var locations = JSON.parse(document.getElementsByTagName('body')[0].getAttribute('data-locations') || '[]');
 
       var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: {lat: locations[0].lat, lng: locations[0].lng}
+        zoom: 2,
+        center: {lat: 0, lng: 0}
       });
 
       var infowindow = new google.maps.InfoWindow();
