@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-import csv
-from itertools import islice
 import re
 import json
 
@@ -10,28 +8,12 @@ import twitter
 
 from keys import *
 
-COUNTRY_NAME = 0
-COUNTRY_CODE = 1
-COUNTRY_LNG = 2
-COUNTRY_LAT = 3
-HEADER_ROWS = 1
-
-
-# read into memory hash table for speed
-with open('countries.csv') as f:
-    reader = csv.reader(f)
-    reader = islice(reader,HEADER_ROWS,None)
-    countries = dict()
-    countriesEscaped = list()
-    for row in reader:
-        if any(data for data in row):
-            country = row[COUNTRY_NAME].lower().replace(" ", "")
-            countries[country] = ( row[COUNTRY_CODE],
-                                   float(row[COUNTRY_LAT]) if not row[COUNTRY_LAT]=='None' else None,
-                                   float(row[COUNTRY_LNG]) if not row[COUNTRY_LNG]=='None' else None)
-            countriesEscaped.append(re.escape(country))
+from app.apps import countries
 
 # build reg-ex
+countriesEscaped = list()
+for country in countries.keys():
+    countriesEscaped.append(re.escape(country))
 matcher = re.compile('|'.join(countriesEscaped),re.IGNORECASE)
 
 api = twitter.Api(consumer_key=CONSUMER_KEY,
