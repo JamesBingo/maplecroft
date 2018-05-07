@@ -1,0 +1,102 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>maplecroft app</title>
+  <meta name="description" content="Plotting keyword searches">
+  <meta name="author" content="Oliver Saunders">
+
+  <style>
+    body {
+        margin: 0;
+    }
+
+    #wrapper {
+         width: 100vw;
+         height:100vw;
+         margin: 0 auto;
+    }
+    #map, #tweets {
+        float: left;
+        height: 80vh
+    }
+    #map {
+         width: 50vw;
+    }
+
+    #tweets {
+         width: 50vw;
+         overflow: scroll;
+    }
+
+    #tweets h1, p {
+      margin-left:10px;
+      margin-top: 0px;
+    }
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+
+<body data-locations='{{ locations }}'>
+  <h1> MapleCroft App </h1>
+
+  <div id="wrapper">
+      <div id="map">
+      </div>
+      <div id="tweets">
+        <h1> Tweets... </h1>
+          {% for tweet in tweets %}
+            <p> {{ tweet.text }} </p>
+          {% endfor %}
+      </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.min.js"></script>
+
+  <script>
+    function initMap() {
+
+      var locations = JSON.parse(document.getElementsByTagName('body')[0].getAttribute('data-locations') || '[]');
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 4,
+        center: {lat: locations[0].lat, lng: locations[0].lng}
+      });
+
+      var infowindow = new google.maps.InfoWindow();
+
+      var marker, index;
+
+      var oms = new OverlappingMarkerSpiderfier(map, {
+        markersWontMove: true,
+        markersWontHide: true,
+        basicFormatEvents: true
+      });
+
+      for (var index=0; index < locations.length; index++) {
+
+        (function() {  // make a closure over the marker and marker data
+          var markerData = locations[index]
+          var marker = new google.maps.Marker({ position: markerData });
+          google.maps.event.addListener(marker, 'spider_click', function(e) {  // 'spider_click', not plain 'click'
+            infowindow.setContent(markerData.text);
+            infowindow.open(map, marker);
+          });
+          oms.addMarker(marker);  // adds the marker to the spiderfier _and_ the map
+        })();
+
+      }
+    }
+  </script>
+
+    <script async defer 
+    src="https://maps.googleapis.com/maps/api/js?key={{ mapsKey }}&callback=initMap"
+    type="text/javascript">
+  </script>
+</body>
+</html>
